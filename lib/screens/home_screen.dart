@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../globals.dart' as globals;
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -33,11 +36,18 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('התראות',
                     style: GoogleFonts.alef(
                         fontSize: 23, fontWeight: FontWeight.bold)),
-                const Spacer(),
+                TextButton(
+                  onPressed: () {},
+                  child: Text('מישהו חייב לי',
+                      style: GoogleFonts.alef(
+                          fontSize: 18,
+                          color: const Color.fromRGBO(2, 15, 56, 1))),
+                ),
                 TextButton(
                   onPressed: () {},
                   child: Text('נקה הכל',
@@ -47,15 +57,24 @@ class HomeScreen extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: 525,
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: 4 / 3,
-                children: List.generate(11, (index) {
-                  return const Reminder();
-                }),
-              ),
+            Expanded(
+              child: globals.alarmsCount == 0
+                  ? Column(
+                      children: [
+                        SvgPicture.asset('assets/no_alarms.svg'),
+                        Text('לא תוזמנו התראות',
+                            style: GoogleFonts.alef(
+                                fontSize: 14,
+                                color: const Color.fromRGBO(2, 15, 56, 1)))
+                      ],
+                    )
+                  : GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 4 / 3,
+                      children: List.generate(globals.alarmsCount, (index) {
+                        return const Reminder();
+                      }),
+                    ),
             ),
           ],
         ),
@@ -100,7 +119,8 @@ class Reminder extends StatelessWidget {
                 child: Text(
                   "Sep 02, 2022",
                   style: GoogleFonts.alef(
-                      fontSize: 14.5, color: Color.fromRGBO(133, 133, 133, 1)),
+                      fontSize: 12,
+                      color: const Color.fromRGBO(133, 133, 133, 1)),
                 ),
               ),
             ],
